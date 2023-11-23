@@ -15,4 +15,4 @@ class Libro(models.Model):
     autor = models.CharField(max_length=255)
     editorial = models.CharField(max_length=255)
     f_publi = models.DateField()
-    genero = models.CharField(max_length=30)
+    genero = models.CharField(max_length=30) 
