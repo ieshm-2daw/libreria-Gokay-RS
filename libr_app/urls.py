@@ -16,6 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from .views import *
 
 urlpatterns = [
+    path('', ListarLibros.as_view(), name='listar_libros'),
+    path('nuevoLibro/', NuevoLibro.as_view(), name='nuevo_libro'),
+    path('detalles/<int:pk>', DetalleLibro.as_view(), name='detalle_libro'),
+    path('borrar/<int:pk>', BorrarLibros.as_view(), name='borrar_libro'),
+    path('editar/<int:pk>', EditarLibro.as_view(), name='editar_libro')
 ]

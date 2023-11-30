@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css">
+    <title>Borrar libro</title>
+</head>
+<body>
+    <form action="{% url 'borrar_libro' pk=libro.pk %}" method="post">
+        <h2>¿Seguro que quieres borrar este libro? Una vez borrado ya no hay vuelta atrás</h2>
+        <h3>{{libro.titulo}}</h3>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" value="Confirm"> Borrar libro </button>
+    </form>
+        <a href="{% url 'listar_libro' %}" role="button"> Cancelar </a>
+</body>
+</html>
