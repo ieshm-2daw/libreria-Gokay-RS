@@ -27,7 +27,8 @@ urlpatterns = [
     path('mislibros/', ListarPrestamos.as_view(), name='libros_usuario'),
     path('reservar/<int:pk>', ReservarLibro.as_view(), name='reservar_libro'),
     path('devolver/<int:pk>', DevolverLibro.as_view(), name='devolver_libro'),
-    path('prestamo/detalles/<int:pk>', DetallesPrestamo.as_view(), name='detalle_prestamo')
+    path('prestamo/detalles/<int:pk>', DetallesPrestamo.as_view(), name='detalle_prestamo'),
+    path('resultados_busqueda/', buscar_libros, name='filtrar')
 ]
 
 

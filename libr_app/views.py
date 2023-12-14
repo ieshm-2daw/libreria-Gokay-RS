@@ -5,16 +5,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import *
 from django.urls import reverse_lazy
 from .models import Libro, Prestamo
+from .forms import FormBuscarLibro
 
 
 # Create your views here.
-
-
-'''class ListBookView(ListView):
-    model=Libro
-    queryset=Libro.objects.filter(disponibilidad="DISP")
-'''
-
 class NuevoLibro(CreateView):
     model = Libro
     fields = '__all__'
@@ -91,3 +85,30 @@ class ListarPrestamos(ListView):
 class DetallesPrestamo(DetailView):
     model=Prestamo
     template_name = "libr_app/detalle_prestamo.html"
+
+"""class buscarLibro(View):
+    def get(self, request):
+        form = FormBuscarLibro()
+        return render(request, 'libr_app/listar_libros.html', {'form', form})
+    
+    def post(self, request):
+        form = FormBuscarLibro(request.POST)
+        if form.is_valid():
+            consulta = form.cleaned_data['consulta']
+            resultados = Libro.objects.filter(titulo__icontains = consulta) | Libro.objects.filter(autor__icontains = consulta) | Libro.objects.filter(editorial__icontains = consulta)
+            form.save()
+            return render(request, "libr_app/filtrado.html", {'resultados':resultados, 'consulta':consulta, 'form':form})
+        else:
+            form = FormBuscarLibro()
+        return render(request, "libr_app/filtrado.html", {'form':form})
+"""
+
+def buscar_libros(request):
+    form = FormBuscarLibro(request.POST or None)
+    
+    if request.method == 'POST' and form.is_valid():
+        consulta = form.cleaned_data['consulta']
+        resultados = Libro.objects.filter(titulo__icontains=consulta) | Libro.objects.filter(autor__icontains=consulta) | Libro.objects.filter(categoria__icontains=consulta)
+        return render(request, 'libr_app/filtrado.html', {'resultados': resultados, 'consulta': consulta, 'form': form})
+    else:
+        return render(request, 'libr_app/filtrado.html', {'form': form})
