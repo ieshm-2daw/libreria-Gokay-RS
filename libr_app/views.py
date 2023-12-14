@@ -1,9 +1,10 @@
 # Create your views here.
+from datetime import date
 from typing import Any
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import *
 from django.urls import reverse_lazy
-from .models import Libro
+from .models import Libro, Prestamo
 
 
 # Create your views here.
@@ -28,10 +29,11 @@ class ListarLibros(ListView):
         context = super().get_context_data(**kwargs)
         context['libros_disponibles'] = Libro.objects.filter(disponibilidad = 'DISP')
         context['libros_prestados'] = Libro.objects.filter(disponibilidad = 'PRES')
+        return context
 
 class BorrarLibros(DeleteView):
     model = Libro
-    template_name = 'libr_app/confirmación_borrado.html'
+    template_name = 'libr_app/borrar_libro.html'
     success_url = reverse_lazy('listar_libros')
 
 class EditarLibro(UpdateView):
@@ -43,3 +45,49 @@ class EditarLibro(UpdateView):
 class DetalleLibro(DetailView):
     model = Libro
     template_name='libr_app/detalle_libro.html'
+
+class ReservarLibro(View):
+    def get(self, request, pk):
+        libro = get_object_or_404(Libro, pk=pk)
+        return render(request, 'libr_app/reserva_libro.html', {"libro":libro})
+    def post(self, request, pk):
+        libro = get_object_or_404(Libro, pk=pk)
+        libro.disponibilidad = "PRES"
+        libro.save()
+
+        Prestamo.objects.create(
+            libro_prest = libro,
+            fecha_prest = date.today(),
+            usuario = request.user,
+            estado = "PRE"
+
+        )
+        return redirect('listar_libros')
+class DevolverLibro(View):
+    def get(self, request, pk):
+        libro_prestado = get_object_or_404(Libro, pk=pk, disponibilidad="PRES")
+        prestamo = Prestamo.objects.filter(libro_prest = libro_prestado,usuario=request.user, estado = "PRE")
+        return render(request, 'libr_app/devolver_libro.html', {"prestamo":prestamo})
+    def post(self, request, pk):
+        libro_prestado = get_object_or_404(Libro, pk=pk, disponibilidad="PRES")
+        prestamo = Prestamo.objects.filter(libro_prest = libro_prestado,usuario=request.user, estado = "PRE").first()
+        prestamo.estado = "DEV"
+        prestamo.fecha_devl = date.today()
+        prestamo.save()
+        libro_prestado.disponibilidad="DISP"
+        libro_prestado.save()
+
+        return redirect('listar_libros')
+    
+class ListarPrestamos(ListView):
+    model = Libro
+    template_name = "libr_app/listar_libros_usuario.html"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['libros_prestados_usuario'] = Prestamo.objects.filter(usuario=self.request.user,estado="PRE")
+        context['libros_devuelto_usuario'] = Prestamo.objects.filter(usuario=self.request.user,estado="DEV")
+        return context
+class DetallesPrestamo(DetailView):
+    model=Prestamo
+    template_name = "libr_app/detalle_prestamo.html"

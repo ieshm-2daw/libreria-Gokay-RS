@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css">
+    <title>{{prestamo}}</title>
+</head>
+<body>
+    <h1>Libro</h1>
+    <p> {{ prestamo.libro_prest.titulo }} </p>
+
+    <h2>Fecha prestamo</h2>
+    <p>  {{ prestamo.fecha_prest }} </p>
+
+    <h2>Fecha devolución</h2>
+    <p>  {{ prestamo.fecha_devl }} </p>
+
+    <h2>Estado</h2>
+    <p>  {{ prestamo.estado }} </p>
+
+</body>
+</html>

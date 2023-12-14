@@ -8,8 +8,8 @@
 </head>
 <body>
     <h1>Complete el formulario para editar este libro</h1>
-    <form action="{% url 'editar_libro' %}" method="post">
-        {{% csrf_token %}}
+    <form action="{% url 'editar_libro' pk=libro.pk%}" method="post">
+        {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Editar libro</button>
     </form>

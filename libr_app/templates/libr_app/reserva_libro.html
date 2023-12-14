@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,22 +16,9 @@
     <h2>Editorial</h2>
     <p>  {{ libro.editorial }} </p>
 
-    <h2>Fecha de publicación</h2>
-    <p>  {{ libro.f_publi }} </p>
-
-    <h2>Genero</h2>
-    <p>  {{ libro.genero }} </p>
-
-    <h2>ISBN</h2>
-    <p>  {{ libro.isbn }} </p>
-
-    <h2>Resumen del libro</h2>
-    <p>  {{ libro.resumen }} </p>
-
-    <h2>Portada</h2>
-    {{libro.portada}}
-
-    <h2>Disponibilidad del libro</h2>
-    <p>  {{ libro.disponibilidad }} </p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Reservar</button>
+    </form>
 </body>
 </html>

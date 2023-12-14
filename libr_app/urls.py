@@ -23,5 +23,12 @@ urlpatterns = [
     path('nuevoLibro/', NuevoLibro.as_view(), name='nuevo_libro'),
     path('detalles/<int:pk>', DetalleLibro.as_view(), name='detalle_libro'),
     path('borrar/<int:pk>', BorrarLibros.as_view(), name='borrar_libro'),
-    path('editar/<int:pk>', EditarLibro.as_view(), name='editar_libro')
+    path('editar/<int:pk>', EditarLibro.as_view(), name='editar_libro'),
+    path('mislibros/', ListarPrestamos.as_view(), name='libros_usuario'),
+    path('reservar/<int:pk>', ReservarLibro.as_view(), name='reservar_libro'),
+    path('devolver/<int:pk>', DevolverLibro.as_view(), name='devolver_libro'),
+    path('prestamo/detalles/<int:pk>', DetallesPrestamo.as_view(), name='detalle_prestamo')
 ]
+
+
+#path('reservar/<int:pk>', ReservarLibro.as_view(), name='reservar_libro'),

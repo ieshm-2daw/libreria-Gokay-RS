@@ -12,9 +12,10 @@
             <h1>Libros disponibles</h1>
             {% for libro in libros_disponibles %}
                 <li>
-                    <h3><a href="{% url 'detalle_libro' pk=libro.pk %}"> {{libro.titulo}} </a></h3>
-                    <a href="{% url 'editar_libro' pk=libro.pk %}" role="button"> Editar este libro </a><br>
+                    <h3><a href="{% url 'detalle_libro' pk=libro.pk %}"> <img src="{{libro.portada.url}}"> {{libro.titulo}}</a></h3>
+                    <a href="{% url 'editar_libro' pk=libro.pk %}" role="button"> Editar este libro </a>
                     <a href="{% url 'borrar_libro' pk=libro.pk %}" role="button">Borrar este libro</a>
+                    <a href="{% url 'reservar_libro' pk=libro.pk %}" role="button">Reservar</a>
                 </li>
             {% empty %}
                 <p> No hay libros disponibles. </p>
@@ -24,16 +25,19 @@
             <h1>Libros prestados</h1>
             {% for libro in libros_prestados %}
                 <li>
-                    <h3><a href="{% url 'detalle_libro' pk=libro.pk %}"> {{libro.titulo}} </a></h3>
-                    <a href="{% url 'editar_libro' pk=libro.pk %}" role="button"> Editar este libro </a><br>
+                    <h3><a href="{% url 'detalle_libro' pk=libro.pk %}"> <img src="{{libro.portada.url}}"> {{libro.titulo}}</a></h3>
+                    <a href="{% url 'editar_libro' pk=libro.pk %}" role="button"> Editar este libro </a>
                     <a href="{% url 'borrar_libro' pk=libro.pk %}" role="button">Borrar este libro</a>
+                    <a href="{% url 'devolver_libro' pk=libro.pk %}" role="button">Devolver</a>
                 </li>
             {% empty %}
                 <p> No hay libros prestados. </p>
             {% endfor %}
         </li>
-        <hr>
+        <hr style="border: 1px solid black; margin-right: 20px;">
         <a href="{% url 'nuevo_libro' %}" role="button">Registrar un libro</a>
+        <span style="border-left: 1px solid black; padding-right: 8px;"> </span>
+        <a href="{% url 'libros_usuario' %}" role="button">Mis libros</a>
     </ul>
 </body>
 </html>

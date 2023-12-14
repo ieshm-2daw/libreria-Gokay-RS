@@ -28,7 +28,7 @@ class Libro(models.Model):
     resumen = models.TextField()
     portada = models.ImageField(upload_to='portadas/', null=True, blank=True)
 
-    D_OPC=(('DISP','Disponible'),('PRES','Prestado'),('EPDP','En proceso de préstamo'))
+    D_OPC=(('DISP','Disponible'),('PRES','Prestado'))#,('EPDP','En proceso de préstamo'))
     disponibilidad = models.CharField(max_length=4, choices=D_OPC)
 
     def __str__(self):
@@ -47,8 +47,8 @@ class Prestamo(models.Model):
     fecha_prest = models.DateField()
     fecha_devl= models.DateField(null=True, blank=True)
     usuario= models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    E_OPC=(('PRE','Prestado'),('DEV','Devuelto'))
+    E_OPC=(('PRE','Prestado'),('DEV','Devuelto'))#,('EPDP','En proceso de prestamo'))
     estado= models.CharField(max_length=3, choices=E_OPC)
 
     def __str__(self):
-        return f"Prestamo de {self.libro_prest.titulo} a {self.usuario}"
+        return f"Prestamo de {self.libro_prest.titulo} a {self.usuario} el {self.fecha_prest}"
