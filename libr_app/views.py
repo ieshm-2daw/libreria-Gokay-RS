@@ -86,29 +86,16 @@ class DetallesPrestamo(DetailView):
     model=Prestamo
     template_name = "libr_app/detalle_prestamo.html"
 
-"""class buscarLibro(View):
-    def get(self, request):
-        form = FormBuscarLibro()
-        return render(request, 'libr_app/listar_libros.html', {'form', form})
-    
-    def post(self, request):
+def buscar_libros(request):
+    if request.method == 'POST':
         form = FormBuscarLibro(request.POST)
         if form.is_valid():
             consulta = form.cleaned_data['consulta']
-            resultados = Libro.objects.filter(titulo__icontains = consulta) | Libro.objects.filter(autor__icontains = consulta) | Libro.objects.filter(editorial__icontains = consulta)
-            form.save()
-            return render(request, "libr_app/filtrado.html", {'resultados':resultados, 'consulta':consulta, 'form':form})
-        else:
-            form = FormBuscarLibro()
-        return render(request, "libr_app/filtrado.html", {'form':form})
-"""
-
-def buscar_libros(request):
-    form = FormBuscarLibro(request.POST or None)
-    
-    if request.method == 'POST' and form.is_valid():
-        consulta = form.cleaned_data['consulta']
-        resultados = Libro.objects.filter(titulo__icontains=consulta) | Libro.objects.filter(autor__icontains=consulta) | Libro.objects.filter(categoria__icontains=consulta)
-        return render(request, 'libr_app/filtrado.html', {'resultados': resultados, 'consulta': consulta, 'form': form})
+            libros_encontrados = Libro.objects.filter(
+                titulo__icontains=consulta
+            )  
+            return render(request, 'libr_app/filtrado.html', {'form': form, 'libros_encontrados': libros_encontrados})
     else:
-        return render(request, 'libr_app/filtrado.html', {'form': form})
+        form = FormBuscarLibro()
+
+    return render(request, 'libr_app/filtrado.html', {'form': form})

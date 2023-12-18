@@ -7,15 +7,17 @@
     <title>Resultado Busquedas</title>
 </head>
 <body>
-    <h2>Resultados de la búsqueda para "{{ consulta }}"</h2>
-    {% if form.resultados %}
+    {% if libros_encontrados %}
         <ul>
-            {% for libro in resultados %}
-                <li>{{ libro.titulo }} - {{ libro.autor }} - {{ libro.genero }}</li>
+            {% for libro in libros_encontrados %}
+                <li>
+                    <h3><a href="{% url 'detalle_libro' pk=libro.pk %}"> <img src="{{libro.portada.url}}"> {{libro.titulo}}</a></h3>
+                    <!-- Agrega aquí cualquier otra información del libro que desees mostrar -->
+                </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>No se encontraron resultados.</p>
+        <p>No se encontraron libros que coincidan con la búsqueda.</p>
     {% endif %}
 </body>
 </html>

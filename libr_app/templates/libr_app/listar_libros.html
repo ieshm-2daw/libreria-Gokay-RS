@@ -9,7 +9,7 @@
 <body>
     <form action="{% url 'filtrar' %}" method="post">
         {% csrf_token %}
-        <input type="text" name="" id="" placeholder="Titulo del libro / Autor / Editorial / ...">{{form.consulta}}
+        {{ form.as_p }}
         <button type="submit">Buscar</button>
     </form>
     <ul>
