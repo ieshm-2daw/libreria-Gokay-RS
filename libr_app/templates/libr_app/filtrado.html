@@ -7,12 +7,16 @@
     <title>Resultado Busquedas</title>
 </head>
 <body>
+    <form action="{% url 'filtrar' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Buscar</button>
+    </form>
     {% if libros_encontrados %}
         <ul>
             {% for libro in libros_encontrados %}
                 <li>
                     <h3><a href="{% url 'detalle_libro' pk=libro.pk %}"> <img src="{{libro.portada.url}}"> {{libro.titulo}}</a></h3>
-                    <!-- Agrega aquí cualquier otra información del libro que desees mostrar -->
                 </li>
             {% endfor %}
         </ul>

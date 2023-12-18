@@ -7,11 +7,6 @@
     <title>Listado de Libros</title>
 </head>
 <body>
-    <form action="{% url 'filtrar' %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Buscar</button>
-    </form>
     <ul>
         <li>
             <h1>Libros disponibles</h1>
@@ -43,6 +38,7 @@
         <a href="{% url 'nuevo_libro' %}" role="button">Registrar un libro</a>
         <span style="border-left: 1px solid black; padding-right: 8px;"> </span>
         <a href="{% url 'libros_usuario' %}" role="button">Mis libros</a>
+        <a href="{% url 'filtrar' %}" role="button">Filtrar libros</a>
     </ul>
 </body>
 </html>

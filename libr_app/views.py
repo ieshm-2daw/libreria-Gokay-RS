@@ -91,9 +91,7 @@ def buscar_libros(request):
         form = FormBuscarLibro(request.POST)
         if form.is_valid():
             consulta = form.cleaned_data['consulta']
-            libros_encontrados = Libro.objects.filter(
-                titulo__icontains=consulta
-            )  
+            libros_encontrados = Libro.objects.filter(titulo__icontains=consulta)  
             return render(request, 'libr_app/filtrado.html', {'form': form, 'libros_encontrados': libros_encontrados})
     else:
         form = FormBuscarLibro()
